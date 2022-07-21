@@ -1,7 +1,5 @@
-
 import sys 
-input = sys.stdin.readline().rstrip()
-
+input = sys.stdin.readline
 
 N = int(input())
 
