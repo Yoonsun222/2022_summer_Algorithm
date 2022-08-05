@@ -1,3 +1,5 @@
+import sys 
+input = sys.stdin.readline
 
 #석순 종유석 번갈아서
 
