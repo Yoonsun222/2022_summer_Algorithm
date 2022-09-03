@@ -24,6 +24,7 @@ def backtracking(row, start):
         for i in range(start):
             if row[i]==row[start] or abs(row[i] - j) == abs(i-start):
                 state = False
+                break
         if state == True:
             backtracking(row, start+1)
     
