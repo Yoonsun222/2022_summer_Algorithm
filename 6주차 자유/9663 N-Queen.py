@@ -1,43 +1,34 @@
 #퀸은 상하좌우 대각선 다 이동 가능
-
+#행과 열 겹치면 안된다. 한 행에 하나만 가능
+#이전 행의 대각선에 위치하면 안된다.
 
 N = int(input())
 
-graph = [[0 for _ in range(N)] for _ in range(N)]
 answer = 0
 
-def backtracking(graph,cnt, startx,starty):
+row = [0 for _ in range(N)]
+
+
+def backtracking(row, start):
     global answer
-    if cnt == N:
+
+    
+    if start == N:
         answer += 1
         return
+   
+    
+    for j in range(N):
+        state = True
+        row[start] = j
+        for i in range(start):
+            if row[i]==row[start] or abs(row[i] - j) == abs(i-start):
+                state = False
+        if state == True:
+            backtracking(row, start+1)
+    
 
-    dx = [0,0,1,-1,1,-1,1,-1]
-    dy = [1,-1,0,0,-1,1,1,-1]
-    for yy in range(starty,N):
-        if xx == N-1:
-            startx = 0
-              
-        for xx in range(startx,N):
-            state = True
 
-            if graph[yy][xx] == 1:
-                continue
-            for i in range(8):
-                x = dx[i] + xx
-                y = dy[i] + yy
-                if x < 0 or N <= x or y < 0 or N <= y: 
-                    continue
-                if graph[y][x] == 1:
-                    state = False
-                    break
-                      
-            if state == True:
-                graph[yy][xx] = 1
-                backtracking(graph,cnt+1,xx,yy)
-                graph[yy][xx] = 0
-            
-backtracking(graph,0,0,0)    
 
+backtracking(row, 0)
 print(answer)
-        
