@@ -27,7 +27,6 @@ def backtracking(row, start):
                 break
         if state == True:
             backtracking(row, start+1)
-    
 
 
 
