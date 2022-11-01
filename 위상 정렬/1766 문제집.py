@@ -1,61 +1,35 @@
-
-
 from collections import deque
+import sys
 import heapq
 
-t = int(input())
+input = sys.stdin.readline
+n, m = map(int,input().split())
+
+indegree = [0] * (n+1)
+graph = [[] for _ in range(n+1)]
+
+for _ in range(m):
+    i,j = map(int,input().split())
+    graph[i].append(j)
+    indegree[j] += 1
 
 
+heap = []
+result = []
 
-for _ in range(t):
-    n = int(input())
-    rank = list(map(int,input().split()))
-    v = int(input())
-    
-    state = True
-    heap = []
-    result = []
-    indegree = [0] * (n+1)
-    visited = [0] * (n+1)
-    pre = 0
-    
-    for r in rank:
-        indegree[r] += indegree[pre]+1
-        pre = r
-
-    for _ in range(v):
-        i,j = map(int,input().split())
-        if indegree[i] < indegree[j]:
-            heapq.heappush(heap,[indegree[i],i,j])
-        else:
-            state = False
-            break
-    if state == False:
-        print("IMPOSSIBLE")
-        continue
-    
-    while heap:
-        r,i,j = heapq.heappop(heap)
-        d = indegree[i]-indegree[i]
-        indegree[i] += d
-        indegree[j] -= d
-
-    queue = deque()
-
-    for i in range(1,n+1):
-        heapq.heappush(result, [indegree[i], i])
-        if visited[indegree[i]] != 0:
-            state = False
-            break
-        visited[indegree[i]] = 1
-    
-    if state == False:
-        print("?")
-    
-    while result:
-        print
+for i in range(n+1):
+    if indegree[i] == 0:
+        heapq.heappush(heap,i)
 
 
+while heap:
+    current = heapq.heappop(heap)
+    result.append(current)
+
+    for i in graph[current]:
+        indegree[i] -= 1
+        if indegree[i] == 0:
+            heapq.heappush(heap,i)
 
 result = result[1:]
 print(*result)
